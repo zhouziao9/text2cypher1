@@ -1,0 +1,462 @@
+question,correct_query,generated_query,correct_output,generated_output,accuracy
+找出所有出演了《黑客帝国》的演员。,MATCH (a:Person)-[:ACTED_IN]->(m:Movie {title: 'The Matrix'}) RETURN a.name,MATCH (a:Person)-[:ACTED_IN]->(m:Movie {title: 'The Matrix'}) RETURN a.name;,"[{'a.name': 'Emil Eifrem'}, {'a.name': 'Hugo Weaving'}, {'a.name': 'Laurence Fishburne'}, {'a.name': 'Carrie-Anne Moss'}, {'a.name': 'Keanu Reeves'}]","[{'a.name': 'Emil Eifrem'}, {'a.name': 'Hugo Weaving'}, {'a.name': 'Laurence Fishburne'}, {'a.name': 'Carrie-Anne Moss'}, {'a.name': 'Keanu Reeves'}]",100.0%
+导演是 'Christopher Nolan' 的电影有哪些？,MATCH (d:Person {name: 'Christopher Nolan'})-[:DIRECTED]->(m:Movie) RETURN m.title,MATCH (d:Person {name: 'Christopher Nolan'})-[:DIRECTED]->(m:Movie) RETURN m.title;,[],[],0.0%
+查找1995年发行的电影。,MATCH (m:Movie {released: 1995}) RETURN m.title,MATCH (m:Movie {released: 1995}) RETURN m.title;,"[{'m.title': 'Johnny Mnemonic'}, {'m.title': 'Apollo 13'}]","[{'m.title': 'Johnny Mnemonic'}, {'m.title': 'Apollo 13'}]",100.0%
+Find all movies Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.released ORDER BY m.released ASC LIMIT 1;",MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title;,"[{'m.title': 'Joe Versus the Volcano', 'm.released': 1990}]","[{'m.title': 'Apollo 13'}, {'m.title': ""You've Got Mail""}, {'m.title': 'A League of Their Own'}, {'m.title': 'Joe Versus the Volcano'}, {'m.title': 'That Thing You Do'}, {'m.title': 'The Da Vinci Code'}, {'m.title': 'Cloud Atlas'}, {'m.title': 'Cast Away'}, {'m.title': 'The Green Mile'}, {'m.title': 'Sleepless in Seattle'}, {'m.title': 'The Polar Express'}, {'m.title': ""Charlie Wilson's War""}]",0.0%
+Find the earliest movie Tom Hanks acted in.,"MATCH (p:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.released ORDER BY m.released ASC LIMIT 1;",MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) ORDER BY m.released ASC LIMIT 1 RETURN m.title;,"[{'m.title': 'Joe Versus the Volcano', 'm.released': 1990}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""(""
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""USING""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 61 (offset: 60))
+""MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) ORDER BY m.released ASC LIMIT 1 RETURN m.title;""
+                                                             ^}",0.0%
+Who directed the movie 'The Matrix'?,MATCH (m:Movie {title: 'The Matrix'})<-[:DIRECTED]-(d:Person) RETURN d.name;,MATCH (d:Person)-[:DIRECTED]->(m:Movie {title: 'The Matrix'}) RETURN d.name;,"[{'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}]","[{'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}]",100.0%
+Find all movies released in the year 2000.,MATCH (m:Movie) WHERE m.released = 2000 RETURN m.title;,MATCH (m:Movie {released: 2000}) RETURN m.title;,"[{'m.title': 'Jerry Maguire'}, {'m.title': 'The Replacements'}, {'m.title': 'Cast Away'}]","[{'m.title': 'Jerry Maguire'}, {'m.title': 'The Replacements'}, {'m.title': 'Cast Away'}]",100.0%
+Find the highest-rated movie Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 1;",MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) WHERE m.rating = (MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m2:Movie) RETURN max(m2.rating)) RETURN m.title;,"[{'m.title': 'Cast Away', 'm.imdbRating': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input '{': expected
+  ""!=""
+  ""%""
+  "")""
+  ""*""
+  ""+""
+  "",""
+  ""-""
+  ""/""
+  ""::""
+  ""<""
+  ""<=""
+  ""<>""
+  ""=""
+  ""=~""
+  "">""
+  "">=""
+  ""AND""
+  ""CONTAINS""
+  ""ENDS""
+  ""IN""
+  ""IS""
+  ""OR""
+  ""STARTS""
+  ""XOR""
+  ""^""
+  ""||"" (line 1, column 95 (offset: 94))
+""MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) WHERE m.rating = (MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m2:Movie) RETURN max(m2.rating)) RETURN m.title;""
+                                                                                               ^}",0.0%
+Find all actors in 'The Matrix'.,MATCH (m:Movie {title: 'The Matrix'})<-[:ACTED_IN]-(a:Person) RETURN a.name;,MATCH (a:Person)-[:ACTED_IN]->(m:Movie {title: 'The Matrix'}) RETURN a.name;,"[{'a.name': 'Emil Eifrem'}, {'a.name': 'Hugo Weaving'}, {'a.name': 'Laurence Fishburne'}, {'a.name': 'Carrie-Anne Moss'}, {'a.name': 'Keanu Reeves'}]","[{'a.name': 'Emil Eifrem'}, {'a.name': 'Hugo Weaving'}, {'a.name': 'Laurence Fishburne'}, {'a.name': 'Carrie-Anne Moss'}, {'a.name': 'Keanu Reeves'}]",100.0%
+Find all movies released in 1999 and their directors.,"MATCH (m:Movie {released: 1999})-[:DIRECTED]->(d:Person) RETURN m.title, d.name;","MATCH (m:Movie {released: 1999})-[:DIRECTED]->(d:Person) RETURN m.title, d.name;",[],[],0.0%
+Find all directors Tom Hanks has worked with.,MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) RETURN DISTINCT d.name;,MATCH (t:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) RETURN DISTINCT d.name;,"[{'d.name': 'Ron Howard'}, {'d.name': 'Nora Ephron'}, {'d.name': 'Penny Marshall'}, {'d.name': 'John Patrick Stanley'}, {'d.name': 'Tom Hanks'}, {'d.name': 'Tom Tykwer'}, {'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}, {'d.name': 'Robert Zemeckis'}, {'d.name': 'Frank Darabont'}, {'d.name': 'Mike Nichols'}]","[{'d.name': 'Ron Howard'}, {'d.name': 'Nora Ephron'}, {'d.name': 'Penny Marshall'}, {'d.name': 'John Patrick Stanley'}, {'d.name': 'Tom Hanks'}, {'d.name': 'Tom Tykwer'}, {'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}, {'d.name': 'Robert Zemeckis'}, {'d.name': 'Frank Darabont'}, {'d.name': 'Mike Nichols'}]",100.0%
+Find all movies that have more than 5 actors.,"MATCH (m:Movie)<-[:ACTED_IN]-(a:Person)
+            WITH m, COUNT(a) AS actorCount
+            WHERE actorCount > 5
+            RETURN m.title, actorCount;","MATCH (m:Movie)<-[:ACTED_IN]-(a:Person) WITH m, count(a) AS actorCount WHERE actorCount > 5 RETURN m.title;","[{'m.title': 'A Few Good Men', 'actorCount': 12}, {'m.title': 'Top Gun', 'actorCount': 6}, {'m.title': 'Jerry Maguire', 'actorCount': 9}, {'m.title': 'Stand By Me', 'actorCount': 7}, {'m.title': ""You've Got Mail"", 'actorCount': 6}, {'m.title': 'Sleepless in Seattle', 'actorCount': 6}, {'m.title': 'Speed Racer', 'actorCount': 7}, {'m.title': 'The Green Mile', 'actorCount': 8}, {'m.title': 'A League of Their Own', 'actorCount': 6}]","[{'m.title': 'A Few Good Men'}, {'m.title': 'Top Gun'}, {'m.title': 'Jerry Maguire'}, {'m.title': 'Stand By Me'}, {'m.title': ""You've Got Mail""}, {'m.title': 'Sleepless in Seattle'}, {'m.title': 'Speed Racer'}, {'m.title': 'The Green Mile'}, {'m.title': 'A League of Their Own'}]",0.0%
+Find all movies Tom Hanks acted in after the year 2000.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)
+            WHERE m.released > 2000
+            RETURN m.title, m.released;",MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) WHERE m.released > 2000 RETURN m.title;,"[{'m.title': 'Cloud Atlas', 'm.released': 2012}, {'m.title': 'The Da Vinci Code', 'm.released': 2006}, {'m.title': ""Charlie Wilson's War"", 'm.released': 2007}, {'m.title': 'The Polar Express', 'm.released': 2004}]","[{'m.title': 'Cloud Atlas'}, {'m.title': 'The Da Vinci Code'}, {'m.title': ""Charlie Wilson's War""}, {'m.title': 'The Polar Express'}]",0.0%
+Find the IMDb rating and release year of 'The Matrix'.,"MATCH (m:Movie {title: 'The Matrix'})
+            RETURN m.imdbRating, m.released;","MATCH (m:Movie {title: 'The Matrix'}) RETURN m.imdbRating, m.released;","[{'m.imdbRating': None, 'm.released': 1999}]","[{'m.imdbRating': None, 'm.released': 1999}]",100.0%
+Find all movies and their writers.,"MATCH (m:Movie)-[:WRITTEN_BY]->(w:Person) RETURN m.title, w.name;","MATCH (m:Movie)-[:WRITTEN_BY]->(w:Person) RETURN m.title, w.name;",[],[],0.0%
+How many movies has Tom Hanks acted in?,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)
+            RETURN COUNT(m) AS movieCount;",MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN count(m);,[{'movieCount': 12}],[{'count(m)': 12}],0.0%
+Find the highest-rated movie and its director.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person)
+            RETURN m.title, d.name, m.imdbRating
+    ORDER BY m.imdbRating DESC
+    LIMIT 1;","MATCH (m:Movie)-[:DIRECTED]->(d:Person) WITH m, d, m.rating AS rating ORDER BY rating DESC LIMIT 1 RETURN m.title, d.name",[],[],0.0%
+Find the director who has worked with Tom Hanks the most and count the number of their movies together.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person)
+            WITH d, COUNT(m) AS collaborations
+            ORDER BY collaborations DESC
+            LIMIT 1
+            RETURN d.name, collaborations;","MATCH (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(t:Person {name: 'Tom Hanks'}), (d)-[:DIRECTED]->(m2:Movie)<-[:ACTED_IN]-(t2:Person {name: 'Tom Hanks'}) WHERE d <> t AND d <> t2 RETURN d.name, count(DISTINCT m) AS movie_count ORDER BY movie_count DESC LIMIT 1","[{'d.name': 'Ron Howard', 'collaborations': 2}]","[{'d.name': 'Nora Ephron', 'movie_count': 2}]",0.0%
+Find the top 10 highest-rated movies and their directors.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person)
+            RETURN m.title, d.name, m.imdbRating
+    ORDER BY m.imdbRating DESC
+    LIMIT 10;","MATCH (m:Movie)-[:DIRECTED]->(d:Person) WHERE m.rating > 0 ORDER BY m.rating DESC LIMIT 10 RETURN m.title, d.name",[],"错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""!=""
+  ""%""
+  ""*""
+  ""+""
+  ""-""
+  ""/""
+  ""::""
+  ""<""
+  ""<=""
+  ""<>""
+  ""=""
+  ""=~""
+  "">""
+  "">=""
+  ""AND""
+  ""CALL""
+  ""CONTAINS""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""ENDS""
+  ""FINISH""
+  ""FOREACH""
+  ""IN""
+  ""INSERT""
+  ""IS""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""OR""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""STARTS""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""WITH""
+  ""XOR""
+  ""^""
+  ""||""
+  <EOF> (line 1, column 60 (offset: 59))
+""MATCH (m:Movie)-[:DIRECTED]->(d:Person) WHERE m.rating > 0 ORDER BY m.rating DESC LIMIT 10 RETURN m.title, d.name""
+                                                            ^}",0.0%
+Find the five lowest-rated movies released after 2000.,"MATCH (m:Movie)
+            WHERE m.released > 2000
+            RETURN m.title, m.imdbRating
+            ORDER BY m.imdbRating ASC
+            LIMIT 5;","MATCH (m:Movie {released: 2000...})-[:RATED_BY]->(r:Rating)RETURN m.title, avg(r.rating) AS average_ratingORDER BY average_rating ASCLIMIT 5","[{'m.title': 'The Matrix Revolutions', 'm.imdbRating': None}, {'m.title': 'RescueDawn', 'm.imdbRating': None}, {'m.title': 'Cloud Atlas', 'm.imdbRating': None}, {'m.title': 'The Da Vinci Code', 'm.imdbRating': None}, {'m.title': 'The Matrix Reloaded', 'm.imdbRating': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input '..': expected
+  ""!=""
+  ""%""
+  ""*""
+  ""+""
+  "",""
+  ""-""
+  ""/""
+  ""::""
+  ""<""
+  ""<=""
+  ""<>""
+  ""=""
+  ""=~""
+  "">""
+  "">=""
+  ""AND""
+  ""CONTAINS""
+  ""ENDS""
+  ""IN""
+  ""IS""
+  ""OR""
+  ""STARTS""
+  ""XOR""
+  ""^""
+  ""||""
+  ""}"" (line 1, column 31 (offset: 30))
+""MATCH (m:Movie {released: 2000...})-[:RATED_BY]->(r:Rating)RETURN m.title, avg(r.rating) AS average_ratingORDER BY average_rating ASCLIMIT 5""
+                               ^}",0.0%
+Find all actors who have acted in more than 10 movies and count their movies.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+            WITH a, COUNT(m) AS movieCount
+            WHERE movieCount > 10
+            RETURN a.name, movieCount
+    ORDER BY movieCount DESC;","MATCH (a:Person)-[:ACTED_IN]->(m:Movie)WITH a, COUNT(m) AS movieCountWHERE movieCount > 10RETURN a.name, movieCount;","[{'a.name': 'Tom Hanks', 'movieCount': 12}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'movieCount': expected
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LIMIT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""ORDER""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""SKIP""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 76 (offset: 75))
+""MATCH (a:Person)-[:ACTED_IN]->(m:Movie)WITH a, COUNT(m) AS movieCountWHERE movieCount > 10RETURN a.name, movieCount;""
+                                                                            ^}",0.0%
+Find the top 3 actors who have worked with Tom Hanks the most and count their collaborations.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(t:Person {name: 'Tom Hanks'})
+            WITH a, COUNT(m) AS collaborations
+            ORDER BY collaborations DESC
+            LIMIT 3
+            RETURN a.name, collaborations;","MATCH (t:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(a:Person) WITH a, COUNT(*) AS collaborations ORDER BY collaborations DESC LIMIT 3 RETURN a.name, collaborations","[{'a.name': 'Meg Ryan', 'collaborations': 3}, {'a.name': 'Bill Paxton', 'collaborations': 2}, {'a.name': 'Gary Sinise', 'collaborations': 2}]","[{'a.name': 'Meg Ryan', 'collaborations': 3}, {'a.name': 'Bill Paxton', 'collaborations': 2}, {'a.name': 'Gary Sinise', 'collaborations': 2}]",100.0%
+Find the highest and lowest-rated movies directed by the same director.,"MATCH (d:Person)-[:DIRECTED]->(m:Movie) WITH d, m ORDER BY m.imdbRating DESC WITH d, COLLECT(m)[0] AS highestRated, COLLECT(m)[-1] AS lowestRated RETURN d.name, highestRated.title AS highestRatedMovie, highestRated.imdbRating AS highestRating, lowestRated.title AS lowestRatedMovie, lowestRated.imdbRating AS lowestRating;","MATCH (d:Person)-[:DIRECTED]->(m:Movie) WITH d, COLLECT(m.rating) AS ratings ORDER BY SIZE(ratings) DESC LIMIT 1 WITH d, ratings UNWIND ratings AS rating MATCH (d)-[:DIRECTED]->(m:Movie {rating: rating}) RETURN m.title, rating ORDER BY rating ASC, m.title ASC","[{'d.name': 'Lana Wachowski', 'highestRatedMovie': 'The Matrix', 'highestRating': None, 'lowestRatedMovie': 'Speed Racer', 'lowestRating': None}, {'d.name': 'Lilly Wachowski', 'highestRatedMovie': 'The Matrix', 'highestRating': None, 'lowestRatedMovie': 'Speed Racer', 'lowestRating': None}, {'d.name': 'Taylor Hackford', 'highestRatedMovie': ""The Devil's Advocate"", 'highestRating': None, 'lowestRatedMovie': ""The Devil's Advocate"", 'lowestRating': None}, {'d.name': 'Rob Reiner', 'highestRatedMovie': 'A Few Good Men', 'highestRating': None, 'lowestRatedMovie': 'When Harry Met Sally', 'lowestRating': None}, {'d.name': 'Tony Scott', 'highestRatedMovie': 'Top Gun', 'highestRating': None, 'lowestRatedMovie': 'Top Gun', 'lowestRating': None}, {'d.name': 'Cameron Crowe', 'highestRatedMovie': 'Jerry Maguire', 'highestRating': None, 'lowestRatedMovie': 'Jerry Maguire', 'lowestRating': None}, {'d.name': 'James L. Brooks', 'highestRatedMovie': 'As Good as It Gets', 'highestRating': None, 'lowestRatedMovie': 'As Good as It Gets', 'lowestRating': None}, {'d.name': 'Vincent Ward', 'highestRatedMovie': 'What Dreams May Come', 'highestRating': None, 'lowestRatedMovie': 'What Dreams May Come', 'lowestRating': None}, {'d.name': 'Scott Hicks', 'highestRatedMovie': 'Snow Falling on Cedars', 'highestRating': None, 'lowestRatedMovie': 'Snow Falling on Cedars', 'lowestRating': None}, {'d.name': 'Nora Ephron', 'highestRatedMovie': ""You've Got Mail"", 'highestRating': None, 'lowestRatedMovie': 'Sleepless in Seattle', 'lowestRating': None}, {'d.name': 'John Patrick Stanley', 'highestRatedMovie': 'Joe Versus the Volcano', 'highestRating': None, 'lowestRatedMovie': 'Joe Versus the Volcano', 'lowestRating': None}, {'d.name': 'Tom Hanks', 'highestRatedMovie': 'That Thing You Do', 'highestRating': None, 'lowestRatedMovie': 'That Thing You Do', 'lowestRating': None}, {'d.name': 'Howard Deutch', 'highestRatedMovie': 'The Replacements', 'highestRating': None, 'lowestRatedMovie': 'The Replacements', 'lowestRating': None}, {'d.name': 'Werner Herzog', 'highestRatedMovie': 'RescueDawn', 'highestRating': None, 'lowestRatedMovie': 'RescueDawn', 'lowestRating': None}, {'d.name': 'Mike Nichols', 'highestRatedMovie': 'The Birdcage', 'highestRating': None, 'lowestRatedMovie': ""Charlie Wilson's War"", 'lowestRating': None}, {'d.name': 'Clint Eastwood', 'highestRatedMovie': 'Unforgiven', 'highestRating': None, 'lowestRatedMovie': 'Unforgiven', 'lowestRating': None}, {'d.name': 'Robert Longo', 'highestRatedMovie': 'Johnny Mnemonic', 'highestRating': None, 'lowestRatedMovie': 'Johnny Mnemonic', 'lowestRating': None}, {'d.name': 'Tom Tykwer', 'highestRatedMovie': 'Cloud Atlas', 'highestRating': None, 'lowestRatedMovie': 'Cloud Atlas', 'lowestRating': None}, {'d.name': 'Ron Howard', 'highestRatedMovie': 'The Da Vinci Code', 'highestRating': None, 'lowestRatedMovie': 'Apollo 13', 'lowestRating': None}, {'d.name': 'James Marshall', 'highestRatedMovie': 'V for Vendetta', 'highestRating': None, 'lowestRatedMovie': 'Ninja Assassin', 'lowestRating': None}, {'d.name': 'Frank Darabont', 'highestRatedMovie': 'The Green Mile', 'highestRating': None, 'lowestRatedMovie': 'The Green Mile', 'lowestRating': None}, {'d.name': 'Danny DeVito', 'highestRatedMovie': 'Hoffa', 'highestRating': None, 'lowestRatedMovie': 'Hoffa', 'lowestRating': None}, {'d.name': 'Jan de Bont', 'highestRatedMovie': 'Twister', 'highestRating': None, 'lowestRatedMovie': 'Twister', 'lowestRating': None}, {'d.name': 'Robert Zemeckis', 'highestRatedMovie': 'Cast Away', 'highestRating': None, 'lowestRatedMovie': 'The Polar Express', 'lowestRating': None}, {'d.name': 'Milos Forman', 'highestRatedMovie': ""One Flew Over the Cuckoo's Nest"", 'highestRating': None, 'lowestRatedMovie': ""One Flew Over the Cuckoo's Nest"", 'lowestRating': None}, {'d.name': 'Nancy Meyers', 'highestRatedMovie': ""Something's Gotta Give"", 'highestRating': None, 'lowestRatedMovie': ""Something's Gotta Give"", 'lowestRating': None}, {'d.name': 'Chris Columbus', 'highestRatedMovie': 'Bicentennial Man', 'highestRating': None, 'lowestRatedMovie': 'Bicentennial Man', 'lowestRating': None}, {'d.name': 'Penny Marshall', 'highestRatedMovie': 'A League of Their Own', 'highestRating': None, 'lowestRatedMovie': 'A League of Their Own', 'lowestRating': None}]",[],0.0%
+Find the director who has worked with Keanu Reeves the most and count their movies together.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH d, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN d.name, collaborations;","MATCH (k:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH d, COUNT(m) AS moviesCount ORDER BY moviesCount DESC LIMIT 1 RETURN d.name, moviesCount","[{'d.name': 'Lana Wachowski', 'collaborations': 3}]","[{'d.name': 'Lana Wachowski', 'moviesCount': 3}]",0.0%
+Find the highest-grossing movie released between 2010 and 2020.,"MATCH (m:Movie) WHERE m.released >= 2010 AND m.released <= 2020 RETURN m.title, m.boxOffice ORDER BY m.boxOffice DESC LIMIT 1;",MATCH (m:Movie) WHERE m.released >= 2010 AND m.released <= 2020 ORDER BY m.gross DESC LIMIT 1 RETURN m.title;,"[{'m.title': 'Cloud Atlas', 'm.boxOffice': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""!=""
+  ""%""
+  ""*""
+  ""+""
+  ""-""
+  ""/""
+  ""::""
+  ""<""
+  ""<=""
+  ""<>""
+  ""=""
+  ""=~""
+  "">""
+  "">=""
+  ""AND""
+  ""CALL""
+  ""CONTAINS""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""ENDS""
+  ""FINISH""
+  ""FOREACH""
+  ""IN""
+  ""INSERT""
+  ""IS""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""OR""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""STARTS""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""WITH""
+  ""XOR""
+  ""^""
+  ""||""
+  <EOF> (line 1, column 65 (offset: 64))
+""MATCH (m:Movie) WHERE m.released >= 2010 AND m.released <= 2020 ORDER BY m.gross DESC LIMIT 1 RETURN m.title;""
+                                                                 ^}",0.0%
+Find all movies directed by multiple directors and return their IMDb ratings.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person) WITH m, COUNT(d) AS directorCount WHERE directorCount > 1 RETURN m.title, m.imdbRating;","MATCH (m:Movie)<-[:DIRECTED]-(d:Person) WITH m, count(DISTINCT d) AS directorsCount WHERE directorsCount > 1 RETURN m.title, m.imdbRating",[],"[{'m.title': 'The Matrix', 'm.imdbRating': None}, {'m.title': 'The Matrix Reloaded', 'm.imdbRating': None}, {'m.title': 'The Matrix Revolutions', 'm.imdbRating': None}, {'m.title': 'Cloud Atlas', 'm.imdbRating': None}, {'m.title': 'Speed Racer', 'm.imdbRating': None}]",0.0%
+Find the earliest movie Keanu Reeves acted in.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.released ORDER BY m.released ASC LIMIT 1;",MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) ORDER BY m.released ASC LIMIT 1 RETURN m.title;,"[{'m.title': 'Johnny Mnemonic', 'm.released': 1995}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""(""
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""USING""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 64 (offset: 63))
+""MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) ORDER BY m.released ASC LIMIT 1 RETURN m.title;""
+                                                                ^}",0.0%
+Find the director who has worked with Tom Hanks the most and count their collaborations.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH d, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN d.name, collaborations;","MATCH (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(t:Person {name: 'Tom Hanks'}), (d)-[:DIRECTED]->(m2:Movie)<-[:ACTED_IN]-(t2:Person {name: 'Tom Hanks'}) WHERE id(m) < id(m2) RETURN d.name, count(DISTINCT m) AS collaborations ORDER BY collaborations DESC LIMIT 1","[{'d.name': 'Ron Howard', 'collaborations': 2}]","[{'d.name': 'Nora Ephron', 'collaborations': 1}]",0.0%
+Find all movies released in 1995.,MATCH (m:Movie) WHERE m.released = 1995 RETURN m.title;,MATCH (m:Movie {released: 1995}) RETURN m.title;,"[{'m.title': 'Johnny Mnemonic'}, {'m.title': 'Apollo 13'}]","[{'m.title': 'Johnny Mnemonic'}, {'m.title': 'Apollo 13'}]",100.0%
+Find the top 5 highest-rated movies.,"MATCH (m:Movie) RETURN m.title, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 5;",MATCH (m:Movie) ORDER BY m.rating DESC LIMIT 5 RETURN m.title;,"[{'m.title': 'The Matrix Reloaded', 'm.imdbRating': None}, {'m.title': 'The Matrix Revolutions', 'm.imdbRating': None}, {'m.title': ""The Devil's Advocate"", 'm.imdbRating': None}, {'m.title': 'A Few Good Men', 'm.imdbRating': None}, {'m.title': 'The Matrix', 'm.imdbRating': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""(""
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""USING""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 17 (offset: 16))
+""MATCH (m:Movie) ORDER BY m.rating DESC LIMIT 5 RETURN m.title;""
+                 ^}",0.0%
+Find the lowest-rated movie Keanu Reeves acted in.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.imdbRating ORDER BY m.imdbRating ASC LIMIT 1;",MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) ORDER BY m.rating ASC LIMIT 1 RETURN m.title;,"[{'m.title': 'The Matrix', 'm.imdbRating': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""(""
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""USING""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 64 (offset: 63))
+""MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) ORDER BY m.rating ASC LIMIT 1 RETURN m.title;""
+                                                                ^}",0.0%
+Find the 10 lowest-rated movies released after 2000.,"MATCH (m:Movie) WHERE m.released > 2000 RETURN m.title, m.imdbRating ORDER BY m.imdbRating ASC LIMIT 10;",MATCH (m:Movie {released: 2000})-[:RATED]->(r:Rating) RETURN m.title ORDER BY r.rating ASC LIMIT 10;,"[{'m.title': 'The Matrix Revolutions', 'm.imdbRating': None}, {'m.title': 'RescueDawn', 'm.imdbRating': None}, {'m.title': 'Cloud Atlas', 'm.imdbRating': None}, {'m.title': 'The Da Vinci Code', 'm.imdbRating': None}, {'m.title': 'V for Vendetta', 'm.imdbRating': None}, {'m.title': 'Speed Racer', 'm.imdbRating': None}, {'m.title': 'Ninja Assassin', 'm.imdbRating': None}, {'m.title': 'Frost/Nixon', 'm.imdbRating': None}, {'m.title': ""Something's Gotta Give"", 'm.imdbRating': None}, {'m.title': 'The Matrix Reloaded', 'm.imdbRating': None}]",[],0.0%
+Find all movies released between 2000 and 2005.,MATCH (m:Movie) WHERE m.released >= 2000 AND m.released <= 2005 RETURN m.title;,MATCH (m:Movie) WHERE m.released >= 2000 AND m.released <= 2005 RETURN m.title;,"[{'m.title': 'The Matrix Reloaded'}, {'m.title': 'The Matrix Revolutions'}, {'m.title': 'Jerry Maguire'}, {'m.title': 'The Replacements'}, {'m.title': 'Cast Away'}, {'m.title': ""Something's Gotta Give""}, {'m.title': 'The Polar Express'}]","[{'m.title': 'The Matrix Reloaded'}, {'m.title': 'The Matrix Revolutions'}, {'m.title': 'Jerry Maguire'}, {'m.title': 'The Replacements'}, {'m.title': 'Cast Away'}, {'m.title': ""Something's Gotta Give""}, {'m.title': 'The Polar Express'}]",100.0%
+Find the actor who has worked with Tom Hanks the most times.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(t:Person {name: 'Tom Hanks'}) WITH a, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN a.name;","MATCH (a:Person)-[:ACTED_IN]->(m)<-[:ACTED_IN]-(h:Person {name: 'Tom Hanks'}) RETURN a.name, count(m) as collaborations ORDER BY collaborations DESC LIMIT 1",[{'a.name': 'Meg Ryan'}],"[{'a.name': 'Meg Ryan', 'collaborations': 3}]",0.0%
+Find the IMDb ratings of all movies in the 'The Matrix' series.,"MATCH (m:Movie) WHERE m.title STARTS WITH 'The Matrix' RETURN m.title, m.imdbRating;","MATCH (m:Movie)-[:IN_SERIES]->(s:Series {name: 'The Matrix'}) RETURN m.title, m.imdbRating;","[{'m.title': 'The Matrix', 'm.imdbRating': None}, {'m.title': 'The Matrix Reloaded', 'm.imdbRating': None}, {'m.title': 'The Matrix Revolutions', 'm.imdbRating': None}]",[],0.0%
+Find the highest-grossing movie released after 2000.,"MATCH (m:Movie) WHERE m.released > 2000 RETURN m.title, m.boxOffice ORDER BY m.boxOffice DESC LIMIT 1;",MATCH (m:Movie {released: 2000})-[:HIGHEST_GROSSING]->() RETURN m.title;,"[{'m.title': 'The Matrix Reloaded', 'm.boxOffice': None}]",[],0.0%
+Find all movies Tom Hanks acted in and their IMDb ratings.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.imdbRating;","MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.imdbRating;","[{'m.title': 'Apollo 13', 'm.imdbRating': None}, {'m.title': ""You've Got Mail"", 'm.imdbRating': None}, {'m.title': 'A League of Their Own', 'm.imdbRating': None}, {'m.title': 'Joe Versus the Volcano', 'm.imdbRating': None}, {'m.title': 'That Thing You Do', 'm.imdbRating': None}, {'m.title': 'The Da Vinci Code', 'm.imdbRating': None}, {'m.title': 'Cloud Atlas', 'm.imdbRating': None}, {'m.title': 'Cast Away', 'm.imdbRating': None}, {'m.title': 'The Green Mile', 'm.imdbRating': None}, {'m.title': 'Sleepless in Seattle', 'm.imdbRating': None}, {'m.title': 'The Polar Express', 'm.imdbRating': None}, {'m.title': ""Charlie Wilson's War"", 'm.imdbRating': None}]","[{'m.title': 'Apollo 13', 'm.imdbRating': None}, {'m.title': ""You've Got Mail"", 'm.imdbRating': None}, {'m.title': 'A League of Their Own', 'm.imdbRating': None}, {'m.title': 'Joe Versus the Volcano', 'm.imdbRating': None}, {'m.title': 'That Thing You Do', 'm.imdbRating': None}, {'m.title': 'The Da Vinci Code', 'm.imdbRating': None}, {'m.title': 'Cloud Atlas', 'm.imdbRating': None}, {'m.title': 'Cast Away', 'm.imdbRating': None}, {'m.title': 'The Green Mile', 'm.imdbRating': None}, {'m.title': 'Sleepless in Seattle', 'm.imdbRating': None}, {'m.title': 'The Polar Express', 'm.imdbRating': None}, {'m.title': ""Charlie Wilson's War"", 'm.imdbRating': None}]",100.0%
+Find all movies released in 1995 and their actors.,"MATCH (m:Movie {released: 1995})<-[:ACTED_IN]-(a:Person) RETURN m.title, a.name;","MATCH (m:Movie {released: 1995})-[:ACTED_IN]->(a:Person) RETURN m.title, a.name;","[{'m.title': 'Johnny Mnemonic', 'a.name': 'Ice-T'}, {'m.title': 'Johnny Mnemonic', 'a.name': 'Dina Meyer'}, {'m.title': 'Johnny Mnemonic', 'a.name': 'Keanu Reeves'}, {'m.title': 'Johnny Mnemonic', 'a.name': 'Takeshi Kitano'}, {'m.title': 'Apollo 13', 'a.name': 'Tom Hanks'}, {'m.title': 'Apollo 13', 'a.name': 'Ed Harris'}, {'m.title': 'Apollo 13', 'a.name': 'Gary Sinise'}, {'m.title': 'Apollo 13', 'a.name': 'Kevin Bacon'}, {'m.title': 'Apollo 13', 'a.name': 'Bill Paxton'}]",[],0.0%
+Find the highest-rated movie released in 1995.,"MATCH (m:Movie) WHERE m.released = 1995 RETURN m.title, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 1;",MATCH (m:Movie {released: 1995}) ORDER BY m.rating DESC LIMIT 1 RETURN m.title;,"[{'m.title': 'Johnny Mnemonic', 'm.imdbRating': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""(""
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""USING""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 34 (offset: 33))
+""MATCH (m:Movie {released: 1995}) ORDER BY m.rating DESC LIMIT 1 RETURN m.title;""
+                                  ^}",0.0%
+Find the highest-grossing movie that Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.boxOffice ORDER BY m.boxOffice DESC LIMIT 1;",MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) ORDER BY m.gross DESC LIMIT 1 RETURN m.title;,"[{'m.title': 'Cast Away', 'm.boxOffice': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""(""
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""USING""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 61 (offset: 60))
+""MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) ORDER BY m.gross DESC LIMIT 1 RETURN m.title;""
+                                                             ^}",0.0%
+Find all directors who have worked with Keanu Reeves.,MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) RETURN DISTINCT d.name;,MATCH (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Person {name: 'Keanu Reeves'}) RETURN DISTINCT d.name;,"[{'d.name': 'Nancy Meyers'}, {'d.name': 'Howard Deutch'}, {'d.name': 'Robert Longo'}, {'d.name': 'Taylor Hackford'}, {'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}]","[{'d.name': 'Nancy Meyers'}, {'d.name': 'Howard Deutch'}, {'d.name': 'Robert Longo'}, {'d.name': 'Taylor Hackford'}, {'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}]",100.0%
+Find the highest-rated movie released after 2000 and its director.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person) WHERE m.released > 2000 RETURN m.title, d.name, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 1;","MATCH (m:Movie {released: 2000..<2023}), (d:Person)-[:DIRECTED]->(m), (r:Rating)-[:RATED]->(m) RETURN m.title, d.name ORDER BY r.rating DESC LIMIT 1",[],"错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input '..': expected
+  ""!=""
+  ""%""
+  ""*""
+  ""+""
+  "",""
+  ""-""
+  ""/""
+  ""::""
+  ""<""
+  ""<=""
+  ""<>""
+  ""=""
+  ""=~""
+  "">""
+  "">=""
+  ""AND""
+  ""CONTAINS""
+  ""ENDS""
+  ""IN""
+  ""IS""
+  ""OR""
+  ""STARTS""
+  ""XOR""
+  ""^""
+  ""||""
+  ""}"" (line 1, column 31 (offset: 30))
+""MATCH (m:Movie {released: 2000..<2023}), (d:Person)-[:DIRECTED]->(m), (r:Rating)-[:RATED]->(m) RETURN m.title, d.name ORDER BY r.rating DESC LIMIT 1""
+                               ^}",0.0%
+Find the actor who has worked with Keanu Reeves the most times.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(k:Person {name: 'Keanu Reeves'}) WITH a, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN a.name;","MATCH (a:Person)-[:ACTED_IN]->(m)<-[:ACTED_IN]-(keanu:Person {name: 'Keanu Reeves'}) RETURN a.name, count(m) as collaborations ORDER BY collaborations DESC LIMIT 1",[{'a.name': 'Hugo Weaving'}],"[{'a.name': 'Hugo Weaving', 'collaborations': 3}]",0.0%
+Find all movies written by two or more writers.,"MATCH (m:Movie)-[:WRITTEN_BY]->(w:Person) WITH m, COUNT(w) AS writerCount WHERE writerCount >= 2 RETURN m.title;","MATCH (w:Person)-[:WRITTEN_BY]->(m:Movie) WITH m, count(w) AS writerCount WHERE writerCount >= 2 RETURN m.title;",[],[],0.0%
+Find all movies released after 2010.,MATCH (m:Movie) WHERE m.released > 2010 RETURN m.title;,MATCH (m:Movie {released: 2010})-[:DIRECTED]->(d:Director) RETURN m.title;,[{'m.title': 'Cloud Atlas'}],[],0.0%
+Find the lowest-grossing movie that Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.boxOffice ORDER BY m.boxOffice ASC LIMIT 1;",MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) ORDER BY m.gross ASC LIMIT 1 RETURN m.title;,"[{'m.title': 'Cast Away', 'm.boxOffice': None}]","错误：{code: Neo.ClientError.Statement.SyntaxError} {message: Invalid input 'ORDER': expected
+  ""(""
+  "",""
+  ""CALL""
+  ""CREATE""
+  ""DELETE""
+  ""DETACH""
+  ""FINISH""
+  ""FOREACH""
+  ""INSERT""
+  ""LOAD""
+  ""MATCH""
+  ""MERGE""
+  ""NODETACH""
+  ""OPTIONAL""
+  ""REMOVE""
+  ""RETURN""
+  ""SET""
+  ""UNION""
+  ""UNWIND""
+  ""USE""
+  ""USING""
+  ""WHERE""
+  ""WITH""
+  <EOF> (line 1, column 61 (offset: 60))
+""MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) ORDER BY m.gross ASC LIMIT 1 RETURN m.title;""
+                                                             ^}",0.0%
+Find all directors who have worked with Keanu Reeves more than twice.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH d, COUNT(m) AS collaborations WHERE collaborations > 2 RETURN d.name;","MATCH (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(keanu:Person {name: 'Keanu Reeves'}) WITH d, count(m) as cnt WHERE cnt > 2 RETURN d.name;","[{'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}]","[{'d.name': 'Lana Wachowski'}, {'d.name': 'Lilly Wachowski'}]",100.0%

@@ -1,0 +1,77 @@
+question,correct_query,generated_query,correct_output,generated_output,accuracy
+找出所有出演了《黑客帝国》的演员。,MATCH (a:Person)-[:ACTED_IN]->(m:Movie {title: 'The Matrix'}) RETURN a.name,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+导演是 'Christopher Nolan' 的电影有哪些？,MATCH (d:Person {name: 'Christopher Nolan'})-[:DIRECTED]->(m:Movie) RETURN m.title,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+查找1995年发行的电影。,MATCH (m:Movie {released: 1995}) RETURN m.title,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.released ORDER BY m.released ASC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the earliest movie Tom Hanks acted in.,"MATCH (p:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.released ORDER BY m.released ASC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Who directed the movie 'The Matrix'?,MATCH (m:Movie {title: 'The Matrix'})<-[:DIRECTED]-(d:Person) RETURN d.name;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies released in the year 2000.,MATCH (m:Movie) WHERE m.released = 2000 RETURN m.title;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest-rated movie Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all actors in 'The Matrix'.,MATCH (m:Movie {title: 'The Matrix'})<-[:ACTED_IN]-(a:Person) RETURN a.name;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies released in 1999 and their directors.,"MATCH (m:Movie {released: 1999})-[:DIRECTED]->(d:Person) RETURN m.title, d.name;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all directors Tom Hanks has worked with.,MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) RETURN DISTINCT d.name;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies that have more than 5 actors.,"MATCH (m:Movie)<-[:ACTED_IN]-(a:Person)
+            WITH m, COUNT(a) AS actorCount
+            WHERE actorCount > 5
+            RETURN m.title, actorCount;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies Tom Hanks acted in after the year 2000.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)
+            WHERE m.released > 2000
+            RETURN m.title, m.released;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the IMDb rating and release year of 'The Matrix'.,"MATCH (m:Movie {title: 'The Matrix'})
+            RETURN m.imdbRating, m.released;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies and their writers.,"MATCH (m:Movie)-[:WRITTEN_BY]->(w:Person) RETURN m.title, w.name;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+How many movies has Tom Hanks acted in?,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)
+            RETURN COUNT(m) AS movieCount;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest-rated movie and its director.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person)
+            RETURN m.title, d.name, m.imdbRating
+    ORDER BY m.imdbRating DESC
+    LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the director who has worked with Tom Hanks the most and count the number of their movies together.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person)
+            WITH d, COUNT(m) AS collaborations
+            ORDER BY collaborations DESC
+            LIMIT 1
+            RETURN d.name, collaborations;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the top 10 highest-rated movies and their directors.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person)
+            RETURN m.title, d.name, m.imdbRating
+    ORDER BY m.imdbRating DESC
+    LIMIT 10;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the five lowest-rated movies released after 2000.,"MATCH (m:Movie)
+            WHERE m.released > 2000
+            RETURN m.title, m.imdbRating
+            ORDER BY m.imdbRating ASC
+            LIMIT 5;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all actors who have acted in more than 10 movies and count their movies.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+            WITH a, COUNT(m) AS movieCount
+            WHERE movieCount > 10
+            RETURN a.name, movieCount
+    ORDER BY movieCount DESC;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the top 3 actors who have worked with Tom Hanks the most and count their collaborations.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(t:Person {name: 'Tom Hanks'})
+            WITH a, COUNT(m) AS collaborations
+            ORDER BY collaborations DESC
+            LIMIT 3
+            RETURN a.name, collaborations;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest and lowest-rated movies directed by the same director.,"MATCH (d:Person)-[:DIRECTED]->(m:Movie) WITH d, m ORDER BY m.imdbRating DESC WITH d, COLLECT(m)[0] AS highestRated, COLLECT(m)[-1] AS lowestRated RETURN d.name, highestRated.title AS highestRatedMovie, highestRated.imdbRating AS highestRating, lowestRated.title AS lowestRatedMovie, lowestRated.imdbRating AS lowestRating;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the director who has worked with Keanu Reeves the most and count their movies together.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH d, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN d.name, collaborations;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest-grossing movie released between 2010 and 2020.,"MATCH (m:Movie) WHERE m.released >= 2010 AND m.released <= 2020 RETURN m.title, m.boxOffice ORDER BY m.boxOffice DESC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies directed by multiple directors and return their IMDb ratings.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person) WITH m, COUNT(d) AS directorCount WHERE directorCount > 1 RETURN m.title, m.imdbRating;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the earliest movie Keanu Reeves acted in.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.released ORDER BY m.released ASC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the director who has worked with Tom Hanks the most and count their collaborations.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH d, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN d.name, collaborations;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies released in 1995.,MATCH (m:Movie) WHERE m.released = 1995 RETURN m.title;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the top 5 highest-rated movies.,"MATCH (m:Movie) RETURN m.title, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 5;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the lowest-rated movie Keanu Reeves acted in.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.imdbRating ORDER BY m.imdbRating ASC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the 10 lowest-rated movies released after 2000.,"MATCH (m:Movie) WHERE m.released > 2000 RETURN m.title, m.imdbRating ORDER BY m.imdbRating ASC LIMIT 10;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies released between 2000 and 2005.,MATCH (m:Movie) WHERE m.released >= 2000 AND m.released <= 2005 RETURN m.title;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the actor who has worked with Tom Hanks the most times.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(t:Person {name: 'Tom Hanks'}) WITH a, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN a.name;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the IMDb ratings of all movies in the 'The Matrix' series.,"MATCH (m:Movie) WHERE m.title STARTS WITH 'The Matrix' RETURN m.title, m.imdbRating;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest-grossing movie released after 2000.,"MATCH (m:Movie) WHERE m.released > 2000 RETURN m.title, m.boxOffice ORDER BY m.boxOffice DESC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies Tom Hanks acted in and their IMDb ratings.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.imdbRating;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies released in 1995 and their actors.,"MATCH (m:Movie {released: 1995})<-[:ACTED_IN]-(a:Person) RETURN m.title, a.name;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest-rated movie released in 1995.,"MATCH (m:Movie) WHERE m.released = 1995 RETURN m.title, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest-grossing movie that Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.boxOffice ORDER BY m.boxOffice DESC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all directors who have worked with Keanu Reeves.,MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) RETURN DISTINCT d.name;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the highest-rated movie released after 2000 and its director.,"MATCH (m:Movie)-[:DIRECTED]->(d:Person) WHERE m.released > 2000 RETURN m.title, d.name, m.imdbRating ORDER BY m.imdbRating DESC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the actor who has worked with Keanu Reeves the most times.,"MATCH (a:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(k:Person {name: 'Keanu Reeves'}) WITH a, COUNT(m) AS collaborations ORDER BY collaborations DESC LIMIT 1 RETURN a.name;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies written by two or more writers.,"MATCH (m:Movie)-[:WRITTEN_BY]->(w:Person) WITH m, COUNT(w) AS writerCount WHERE writerCount >= 2 RETURN m.title;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all movies released after 2010.,MATCH (m:Movie) WHERE m.released > 2010 RETURN m.title;,,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find the lowest-grossing movie that Tom Hanks acted in.,"MATCH (a:Person {name: 'Tom Hanks'})-[:ACTED_IN]->(m:Movie) RETURN m.title, m.boxOffice ORDER BY m.boxOffice ASC LIMIT 1;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
+Find all directors who have worked with Keanu Reeves more than twice.,"MATCH (a:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person) WITH d, COUNT(m) AS collaborations WHERE collaborations > 2 RETURN d.name;",,错误：{code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.},生成的查询为空，无法执行。,0.0%
